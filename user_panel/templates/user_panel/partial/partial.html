@@ -1,0 +1,18 @@
+<div class="col col-lg-3">
+    <div class="account_menu">
+        <h2 class="title_text">حساب من</h2>
+        <ul class="account_menu_list ul_li_block">
+            <li class="{% if request.resolver_match.url_name == 'user-panel' %}active{% endif %}">
+                <a href="{% url 'user-panel' %}">داشبورد حساب</a></li>
+            <li class="{% if request.resolver_match.url_name == 'account_info_page' %}active{% endif %}">
+                <a href="{% url 'account_info_page' %}">اطلاعات حساب</a></li>
+            <li class="{% if request.resolver_match.url_name == 'edit_profile_page' %}active{% endif %}">
+                <a href="{% url 'edit_profile_page' %}">تغییر اطلاعات حساب </a></li>
+            <li class="{% if request.resolver_match.url_name == 'change_password_page' %}active{% endif %}">
+                <a href="{% url 'change_password_page' %}">تغییر رمز عبور</a></li>
+            <li class="{% if request.resolver_match.url_name == 'ordered_list_page' %}active{% endif %}">
+                <a href="{% url 'ordered_list_page' %}">محصولات خریداری شده</a></li>
+            <li><a href="#!">لیست علاقه مندی های من</a></li>
+        </ul>
+    </div>
+</div>

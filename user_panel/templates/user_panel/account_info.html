@@ -1,0 +1,86 @@
+{% extends 'shared/layout.html' %}
+{% load render_partial %}
+{% block title %}
+	پنل کاربری
+{% endblock %}
+{% block content %}
+<section class="account_section section_space">
+            <div class="container">
+                <div class="row">
+                    {% render_partial 'user_panel.views.profile_partial'%}
+
+                    <div class="col col-lg-9">
+                        <div class="account_content_area">
+                            <h3>اطلاعات حساب</h3>
+                            <ul class="content_layout ul_li_block">
+
+                                <li>
+                                    <h4>اطلاعات فردی</h4>
+                                <p></p>
+                                    {% if user.first_name %}
+                                    	<h6 class="mb-3">نام : {{ user.first_name }}</h6>
+                                        <p></p>
+                                        {% else %}
+                                        <h6 class="mb-3">نام : در حال حاضر هیچ نامی برای شما ثبت نشده !</h6>
+                                    {% endif %}
+                                    {% if user.last_name %}
+                                    	<h6 class="mb-3">نام خانوادگی : {{ user.last_name }}</h6>
+                                        {% else %}
+                                        <h6 class="mb-3">نام خانوادگی : در حال حاضر هیچ نام خانوادگی برای شما ثبت نشده !</h6>
+                                    {% endif %}
+                                <a class="btn btn_gray" href="{% url 'edit_profile_page' %}">ویرایش نام و نام خانوادگی</a>
+
+                                </li>
+                                <li>
+                                    <h4>آدرس</h4>
+                                    {% if user.address %}
+                                    	<p>
+                                        {{ user.address }}
+                                        </p>
+                                        {% else %}
+                                        <p> در حال حاضر هیچ نشانی برای شما ثبت نشده ! </p>
+                                    {% endif %}
+                                    <a class="btn btn_gray" href="{% url 'edit_profile_page' %}">ویرایش آدرس</a>
+
+                                </li>
+                                <li>
+                                    <h4 class="mb-3">اطلاعات تماس</h4>
+                                    {% if user.phone %}
+                                    	<h6 class="mb-3">شماره همراه : {{ user.phone }}</h6>
+                                        {% else %}
+                                        <h6 class="mb-3">ایمیل : در حال حاضر هیچ شماره همراهی برای شما ثبت نشده !</h6>
+                                    {% endif %}
+                                    {% if user.email %}
+                                    	<h6 class="mb-3">ایمیل : {{ user.email }}</h6>
+                                        {% else %}
+                                        <h6 class="mb-3">ایمیل : </h6>
+                                        <p>در حال حاضر هیچ ایمیلی برای شما ثبت نشده !</p>
+                                    {% endif %}
+                                <a class="btn btn_gray" href="{% url 'edit_profile_page' %}">ویرایش آدرس ایمیل</a>
+                                </li>
+                                <li>
+                                    <h4>نام کاربری</h4>
+                                    <p></p>
+                                    <p>
+                                         {{ user.username }}
+                                    </p>
+
+                                </li>
+                                <li>
+                                    <h4>درباره من</h4>
+                                    {% if user.about_user %}
+                                    	<p>
+                                        {{ user.about_user }}
+                                        </p>
+                                        {% else %}
+                                        <p> در حال حاضر هیچی برای شما ثبت نشده ! </p>
+                                    {% endif %}
+                                    <a class="btn btn_gray" href="{% url 'edit_profile_page' %}">ویرایش درباره من</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'shared/layout.html' %}
+{% load render_partial %}
+{% block title %}
+    پنل کاربری
+{% endblock %}
+
+{% block content %}
+    <section class="account_section section_space">
+        <div class="container">
+            <div class="row">
+                {% render_partial 'user_panel.views.profile_partial' %}
+
+                <div class="col col-lg-9">
+                    <div class="account_content_area">
+                        <h3>داشبورد من</h3>
+                        <ul class="content_layout ul_li_block">
+                            <li>
+                                <div class="col col-lg-12">
+                                    <div class="contact_info_wrap">
+                                        <form action="{% url 'edit_profile_page' %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col col-md-6 col-sm-6">
+                                                    <div class="form_item">
+                                                        {{ form.first_name.label_tag }}
+                                                        {{ form.first_name }}
+                                                        {{ form.first_name.errors }}
+
+                                                    </div>
+                                                </div>
+                                                <div class="col col-md-6 col-sm-6">
+                                                    <div class="form_item">
+                                                        {{ form.last_name.label_tag }}
+                                                        {{ form.last_name }}
+                                                        {{ form.last_name.errors }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form_item">
+                                                {{ form.address.label_tag }}
+                                                {{ form.address }}
+                                                {{ form.address.errors }}
+                                            </div>
+
+                                            <div class="form_item">
+                                                {{ form.email.label_tag }}
+                                                {{ form.email }}
+                                                {{ form.email.errors }}
+
+                                            </div>
+
+                                            <div class="form_item">
+                                                {{ form.about_user.label_tag }}
+                                                {{ form.about_user }}
+                                                {{ form.about_user.errors }}
+
+                                            </div>
+                                            <button type="submit" class="btn btn_primary">ذخیره</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+

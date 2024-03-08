@@ -1,0 +1,100 @@
+
+
+
+{% extends 'shared/layout.html' %}
+
+{% block title %}
+    ورود / ثبت نام
+{% endblock %}
+
+{% block content %}
+
+    <div class="breadcrumb_section">
+        <div class="container">
+            <ul class="breadcrumb_nav ul_li">
+                <li><a href="{% url 'home_page' %}">صفحه اصلی</a></li>
+                <li>ورود</li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="register_section section_space">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <ul class="nav register_tabnav ul_li_center" role="tablist">
+                        <li role="presentation">
+                            <button class="active" data-bs-toggle="tab" data-bs-target="#signin_tab" type="button"
+                                    role="tab" aria-controls="signin_tab" aria-selected="true">
+                                ورود با نام کاربری
+                            </button>
+                        </li>
+
+                    </ul>
+                    {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    <div class="register_wrap tab-content">
+                        <div class="tab-pane fade show active" id="signin_tab" role="tabpanel">
+                            <form method="post" action="{% url 'login-username-page' %}">
+                                {% csrf_token %}
+                                <div class="form_item_wrap">
+                                    <h3 class="input_title">نام کاربری*</h3>
+                                    <div class="form_item">
+                                        <label for="username_input"><i class="fas fa-user"></i></label>
+                                        {{ login_form.username }}
+                                        {{ login_form.username.errors }}
+                                        <span>{{ login_form.username.help_text }}</span>
+                                    </div>
+                                </div>
+                                <div class="form_item_wrap">
+                                    <h3 class="input_title">کلمه عبور*</h3>
+                                    <div class="form_item">
+                                        <label for="password_input"><i class="fas fa-lock"></i></label>
+                                        {{ login_form.password }}
+                                        {{ login_form.password.errors }}
+                                    </div>
+                                </div>
+
+                                <div class="forget_pass_wrap align-items-center justify-content-between">
+                                    <div class="checkbox_item m-0">
+                                        <input id="remember_checkbox" type="checkbox">
+                                        <label for="remember_checkbox">مرا به خاطر بسپار</label>
+                                    </div>
+                                    <div class="forget_pass">
+                                        <a href="{% url 'forget_password-page' %}">فراموشی رمز عبور؟</a>
+                                    </div>
+                                </div>
+
+                                <div class="text-start">
+                                    <button type="submit" class="btn btn_secondary">اکنون وارد شوید</button>
+                                    <a href="{% url 'login-phone-page' %}"> ورود با شماره همراه
+                                    </a>
+                                </div>
+
+                                <div>
+                                    <p></p>
+                                    <p></p>
+                                    <p>ثبت نام نکردی؟</p><a href="{% url 'register-page' %}"> ثبت نام کنید </a>
+                                </div>
+
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}

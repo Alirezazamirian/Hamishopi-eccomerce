@@ -1,0 +1,52 @@
+{% extends 'shared/layout.html' %}
+{% load poll_extras %}
+{% load render_partial %}
+
+{% block title %}
+    جزییات خرید
+{% endblock %}
+
+{% block content %}
+
+    <section class="account_section section_space">
+        <div class="container">
+            <div class="row">
+                {% render_partial 'user_panel.views.profile_partial' %}
+
+                <div class="col col-lg-9">
+                    <div class="account_content_area">
+                        <h3>جزییات سفارش محصول {{ order.id }}</h3>
+                        <ul class="content_layout ul_li_block">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">شناسه محصول</th>
+                                    <th scope="col">نام محصول</th>
+                                    <th scope="col">تعداد</th>
+                                    <th scope="col">قیمت نهایی</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for detail in order.orderdetail_set.all %}
+                                    <tr>
+                                        <th scope="row">{{ detail.product.id }}</th>
+                                        <td>{{ detail.product.title }}</td>
+                                        <td>{{ detail.count }}</td>
+                                        <td>
+                                            {{ detail.final_price|three_digits_currency }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+
+                                </tbody>
+                            </table>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

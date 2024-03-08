@@ -1,0 +1,84 @@
+{% extends 'shared/layout.html' %}
+{% block title %}
+    تماس با ما
+{% endblock %}
+
+{% block content %}
+    <div class="breadcrumb_section">
+        <div class="container">
+            <ul class="breadcrumb_nav ul_li">
+                <li><a href="{% url 'home_page' %}">صفحه اصلی</a></li>
+                <li>با ما تماس بگیرید</li>
+            </ul>
+        </div>
+    </div>
+    <!-- breadcrumb_section - end
+    ================================================== -->
+
+    <!-- contact_section - start
+    ================================================== -->
+    <section class="contact_section section_space">
+        <div class="container">
+            <div class="row">
+                <div class="col col-lg-6">
+                    <div class="contact_info_wrap">
+                        <h3 class="contact_title">اطلاعات نشانی</h3>
+                        <p>{{ site_setting.address }}</p>
+                        <div class="row">
+                            <div class="col col-md-6">
+                                <div class="contact_info_list">
+                                    <h4 class="list_title">{{ site_setting.site_name }}</h4>
+                                    <ul class="ul_li_block">
+                                        <li>ساعات پاسخگویی از 8 صبح الی 22 شب</li>
+                                        <li>{{ site_setting.email }}</li>
+                                        <li>{{ site_setting.phone }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-lg-6">
+                    <div class="contact_info_wrap">
+                        <h3 class="contact_title">تماس بگیرید و به ما اطلاع دهید</h3>
+                        <form action="{% url 'contact_us_page' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form_item">
+                                {{ form.title.label_tag }}
+                                {{ form.title }}
+                                {{ form.title.errors }}
+
+                            </div>
+                            <div class="row">
+                                <div class="col col-md-6 col-sm-6">
+                                    <div class="form_item">
+                                        {{ form.first_name.label_tag }}
+                                        {{ form.first_name }}
+                                        {{ form.first_name.errors }}
+
+                                    </div>
+                                </div>
+                                <div class="col col-md-6 col-sm-6">
+                                    <div class="form_item">
+                                        {{ form.last_name.label_tag }}
+                                        {{ form.last_name }}
+                                        {{ form.last_name.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form_item">
+                                {{ form.message.label_tag }}
+                                {{ form.message }}
+                                {{ form.message.errors }}
+                            </div>
+                            <button type="submit" class="btn btn_primary">پیام فرستادن</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+

@@ -1,0 +1,93 @@
+{% extends 'shared/layout.html' %}
+{% load poll_extras %}
+{% load render_partial %}
+
+{% block title %}
+    لیست مقالات
+{% endblock %}
+
+{% block content %}
+
+    <div class="breadcrumb_section">
+        <div class="container">
+            <ul class="breadcrumb_nav ul_li">
+                <li><a href="{% url 'home_page' %}">صفحه اصلی</a></li>
+                <li>تقسیم وبلاگ</li>
+            </ul>
+        </div>
+    </div>
+    <!-- breadcrumb_section - end
+    ================================================== -->
+
+    <!-- blog_section - start
+    ================================================== -->
+    <section class="blog_section section_space">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col col-lg-8">
+                {% for article in object_list %}
+                	<div class="blog_split_layout">
+                        <a class="item_image" href="{% url 'articles_detail' pk=article.id %}">
+                            <img src="{{ article.image.url }}"
+                                 alt="Getyootech - Gadgets Ecommerce Site Template">
+                        </a>
+                        <div class="item_content">
+                            <ul class="post_meta ul_li">
+                                <li> تاریخ ثبت : {{ article.get_jalali_create_time }}</li>
+                                <li>{{ article.create_date | show_jalali_date }}</li>
+                            </ul>
+                            <h3 class="item_title">
+                                <a href="{% url 'articles_detail' pk=article.id %}">{{ article.title }}</a>
+                            </h3>
+                            <p>{{ article.short_description }}</p>
+                            <a class="btn btn_gray" href="{% url 'articles_detail' pk=article.id %}">بیشتر بخوانید</a>
+                        </div>
+                    </div>
+                {% endfor %}
+
+
+
+                    <div class="pagination_wrap pt-0">
+                        <ul class="pagination_nav ul_li_right">
+                            {% if page_obj.has_previous %}
+                                <li class="next_btn"><a href="?page={{ page_obj.previous_page_number }}"><i
+                                        class="fa-regular fa-angle-right"></i></a></li>
+                            {% endif %}
+
+                            {% for pageNumber in paginator.page_range %}
+                                <li class="{% if page_obj.number == pageNumber %} active {% endif %}">
+                                    <a href="?page={{ pageNumber }}">{{ pageNumber }}</a>
+                                </li>
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                                <li class="prev_btn"><a href="?page={{ page_obj.next_page_number }}"><i
+                                        class="fa-regular fa-angle-left"></i></a></li>
+
+                            {% endif %}
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col col-lg-4">
+                    <aside class="sidebar_section">
+
+                        <div class="sb_widget2">
+                            <h3 class="sb_widget_title2">دسته بندی ها</h3>
+                            <ul class="sb_category_list2 ul_li_block">
+                                {% for category in main_categories %}
+                                	<li><a href="{% url 'articles_by_category_list' category=category.url_title %}">{{ category.title }}</a></li>
+                                {% endfor %}
+
+                            </ul>
+                        </div>
+
+
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

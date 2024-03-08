@@ -1,0 +1,34 @@
+{% extends 'shared/layout.html' %}
+
+{% block title %}
+    خطای 404
+{% endblock %}
+
+{% block content %}
+    <div class="breadcrumb_section">
+        <div class="container">
+            <ul class="breadcrumb_nav ul_li">
+                <li><a href="{% url 'home_page' %}">صفحه اصلی</a></li>
+                <li>خطای 404</li>
+            </ul>
+        </div>
+    </div>
+    <!-- breadcrumb_section - end
+    ================================================== -->
+
+    <!-- error_section - start
+    ================================================== -->
+    <section class="error_section section_space">
+        <div class="container">
+
+            <div class="error_content">
+                <h1>4<span>0</span>4</h1>
+                <h2>متاسفانه صفحه مورد نظر وجود ندارد</h2>
+            </div>
+
+
+        </div>
+    </section>
+
+{% endblock %}
+

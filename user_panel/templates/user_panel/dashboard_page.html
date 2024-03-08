@@ -1,0 +1,31 @@
+{% extends 'shared/layout.html' %}
+{% load render_partial %}
+{% block title %}
+	حساب کاربری
+{% endblock %}
+
+{% block content %}
+
+        <section class="account_section section_space">
+            <div class="container">
+                <div class="row">
+                    {% render_partial 'user_panel.views.profile_partial' %}
+
+                    <div class="col col-lg-9">
+                        <div class="account_content_area">
+                            <h3>داشبورد من</h3>
+                            <ul class="content_layout ul_li_block">
+                                <li>
+                                    <h4><strong>سلام {{ user.first_name }}!</strong></h4>
+                                    <p class="mb-0">
+                                        از طریق داشبورد خود می توانید یک عکس فوری از فعالیت اخیر حساب خود را مشاهده کرده و اطلاعات حساب خود را به روز کنید.
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+{% endblock %}

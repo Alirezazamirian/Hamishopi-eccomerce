@@ -1,0 +1,155 @@
+{% extends 'shared/layout.html' %}
+{% load poll_extras %}
+{% load render_partial %}
+
+{% block title %}
+    تکمیل فرم
+{% endblock %}
+
+{% block content %}
+
+        <section class="checkout_section section_space" dir="rtl">
+            <div class="container">
+                <form action="{% url 'shipping_form_page' %}" method="post">
+                {% csrf_token %}
+
+                    <div class="checkout_widget bg-light">
+                        <h3 class="checkout_widget_title">فرم ثبت سفارش</h3>
+
+
+                        <div class="row">
+                            <div class="col col-md-6 col-sm-6">
+                                <div class="form_item">
+                                    <h4 class="input_title">نام کوچک*</h4>
+                                    {{ form.first_name }}
+                                    {{ form.first_name.errors }}
+                                </div>
+                            </div>
+                            <div class="col col-md-6 col-sm-6">
+                                <div class="form_item">
+                                    <h4 class="input_title">نام خانوادگی*</h4>
+                                    {{ form.last_name }}
+                                    {{ form.last_name.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form_item">
+                            <h4 class="input_title">نشانی *</h4>
+                            {{ form.address }}
+                            {{ form.address.errors }}
+                        </div>
+
+                        <div class="form_item">
+                            <h4 class="input_title">شهر / شهر *</h4>
+                            {{ form.city }}
+                            {{ form.city.errors }}
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-md-6 col-sm-6">
+                                <div class="form_item">
+                                    <h4 class="input_title">استان *</h4>
+                                    {{ form.province }}
+                                    {{ form.province.errors }}
+                                </div>
+                            </div>
+                            <div class="col col-md-6 col-sm-6">
+                                <div class="form_item">
+                                    <h4 class="input_title">کد پستی / پستی *</h4>
+                                    {{ form.postal_code }}
+                                    {{ form.postal_code.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form_item mb-5">
+                            <h4 class="input_title">اطلاعات تماس *</h4>
+                            {{ form.phone }}
+                            {{ form.phone.errors }}
+                        </div>
+
+                        <div class="form_item mb-5">
+                            <h4 class="input_title">ایدی اینستاگرام(اختیاری)</h4>
+                            {{ form.instagram }}
+                        </div>
+
+                    </div>
+
+                        <div class="checkout_widget">
+                        <h3 class="checkout_widget_title">سفارش شما</h3>
+                        <div class="cart_table checkout_table">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>تولید</th>
+                                    <th>قیمت</th>
+                                    <th>تعداد</th>
+                                    <th>مجموع</th>
+                                </tr>
+                                </thead>
+                                {% for detail in order.orderdetail_set.all %}
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="cart_product">
+                                            <img src="{{ detail.product.image.url }}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                                            <h3>{{ detail.product.title }}</h3>
+                                        </div>
+                                    </td>
+                                    <td><span class="price_text">{{ detail.product.price|three_digits_currency }}</span></td>
+                                    <td><strong class="quantity_count">{{ detail.count }}</strong></td>
+                                    <td><span class="price_text">{% multiply detail.count detail.product.price %}</span></td>
+                                </tr>
+
+                                </tbody>
+                                {% endfor %}
+                            <tr>
+
+                                </tr>
+                            </table>
+                        <div class="col col-lg-12" >
+                        <div class="cart_total_table">
+                            <h3 class="wrap_title">مجموع سبد خرید</h3>
+                            <ul class="ul_li_block">
+                                <li>
+                                    <span>جمع سبد خرید</span>
+                                    <span>{{ sum|three_digits_currency }}</span>
+                                </li>
+                                <li>
+                                    <span>حمل و نقل و جابجایی</span>
+                                    <span>{{ shipping|three_digits_currency }}</span>
+                                </li>
+                                <li>
+                                    <span>سفارش مجموع</span>
+                                    <span class="total_price">{{ shipping_sum|three_digits_currency }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+
+
+                    <div class="checkout_payment_method">
+                        <ul class="ul_li_block">
+                            <li>
+                                <div class="radio_item">
+                                    <input id="direct_bank_transfer" type="radio" name="payment_method" checked>
+                                    <label for="direct_bank_transfer">انتقال مستقیم بانکی</label>
+                                </div>
+                                <div class="directly_payment_info">
+                                    پرداخت خود را مستقیماً به حساب بانکی ما انجام دهید. لطفا از شناسه سفارش خود به عنوان مرجع پرداخت استفاده کنید. سفارش شما تا زمانی که وجوه در حساب ما تسویه نشده باشد ارسال نخواهد شد.
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="load_more">
+                            <a href="{% url 'request_payment' %}"><button type="submit" class="btn btn_primary w-100" >ثبت سفارش</button></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    
+{% endblock %}

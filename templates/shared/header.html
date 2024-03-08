@@ -1,0 +1,167 @@
+{% load render_partial %}
+<header class="header_section" style="direction: rtl">
+    <div class="header_top">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col col-md-6">
+                    <ul class="header_select_options ul_li">
+
+                    </ul>
+                </div>
+                <div class="col col-md-6">
+                    <p class="header_hotline">خط تلفن: <strong>{{ site_setting.phone }}</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header_middle">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col col-lg-2 col-sm-6">
+                    <div class="brand_logo">
+                        <a class="brand_link" href="{% url 'home_page' %}">
+                            {% if site_setting.site_logo %}
+                            	<img src="{{ site_setting.site_logo.url }}"
+                                 alt="Getyootech - Gadgets Ecommerce Site Template">
+                            {% else %}
+                                <img src="/static/images/logo/site_logo.svg"
+                                 alt="Getyootech - Gadgets Ecommerce Site Template">
+                            {% endif %}
+
+                        </a>
+                    </div>
+                </div>
+                <div class="col col-lg-6 col-2">
+                    <nav class="main_menu navbar navbar-expand-lg">
+                        <div class="main_menu_inner collapse navbar-collapse justify-content-center"
+                             id="main_menu_dropdown">
+                            <ul class="main_menu_list ul_li">
+                                <li>
+                                    <a href="{% url 'home_page' %}">صفحه اصلی</a>
+                                </li>
+
+                                <li class="dropdown">
+                                    <a class="nav-link" href="#" id="shop_submenu" role="button"
+                                       data-bs-toggle="dropdown" aria-expanded="false">مقالات</a>
+                                    <ul class="dropdown-menu" aria-labelledby="shop_submenu">
+                                        <li><a href="{% url '404-page' %}">ویدیو آموزشی</a></li>
+                                        <li><a href="{% url 'articles_list' %}">مقالات</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="{% url 'product-list-page' %}">محصولات</a>
+                                </li>
+                                <li><a class="{% if request.resolver_match.url_name == 'about_page' %}active{% endif %}"
+                                       href="{% url 'about_page' %}">درباره ما</a>
+                                </li>
+                                <li><a href="{% url 'contact_us_page' %}">تماس با ما </a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+
+                <div class="col col-lg-3 col-5">
+                    <ul class="header_icons_group ul_li_right">
+                        <li>
+                            <button class="mobile_menu_btn navbar-toggler" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#main_menu_dropdown" aria-controls="main_menu_dropdown"
+                                    aria-expanded="false" aria-label="Toggle navigation">
+                                <i class="fal fa-bars"></i>
+                            </button>
+                        </li>
+                        {% if request.user.is_authenticated %}
+                            <li><a href="{% url 'user-panel' %}"><i class="fa-regular fa-user"></i></a></li>
+                            <li><p></p></li>
+
+                            <li>
+                                <a href="{% url 'user-panel' %}">   پروفایل </a>
+                            </li>
+                            <li><p></p></li>
+                            <li><p></p></li>
+                            <li><p></p></li>
+                            <li><p></p></li>
+                            <li><p></p></li>
+                            <li><a href="{% url 'logout_page' %}"><i class="fa fa-sign-out"></i> خروج</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login-phone-page' %}"><i class="fa-regular fa-user"></i></a></li>
+                            <li><a href="{% url 'login-phone-page' %}">ورود</a></li>
+                            <li><p></p></li>
+                            <li><a style="width: fit-content" href="{% url 'register-page' %}">ثبت نام</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header_bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col col-md-3 col-6">
+                    <div class="allcategories_dropdown">
+                        <button class="allcategories_btn" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#allcategories_collapse" aria-expanded="false"
+                                aria-controls="allcategories_collapse">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 width="15" height="13" viewBox="0 0 15 13">
+                                <image width="15" height="13"
+                                       xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANAgMAAAALcNzSAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACVBMVEX+//3+//0AAABvRd2oAAAAAXRSTlMAQObYZgAAAAFiS0dEAmYLfGQAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAAHdElNRQflBwIBIhVZ2fz2AAAAGUlEQVQI12MIDQ0NYQATaAAshEUcJgvVBgDy4QdJZv6kzwAAAABJRU5ErkJggg=="></image>
+                            </svg>
+                            دسته بندی محصولات
+                        </button>
+                        <div class="allcategories_collapse collapse" id="allcategories_collapse">
+                            <div class="card card-body">
+                                <ul class="allcategories_list ul_li_block">
+                                    {% for category in brands %}
+                                        <li><a href="{% url 'product-brand-list' brand=category.url_title %}">
+                                            <i class="far fa-rocket-launch"></i> {{ category.title }}</a>
+                                        </li>
+                                    {% endfor %}
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-md-6">
+                    <form action="#">
+                        <div class="advance_serach">
+{#                            <div class="form_item">#}
+{#                                <input type="search" name="search" placeholder="جستجوی محصولات">#}
+{#                            </div>#}
+{#                            <button type="submit" class="search_btn"><i class="far fa-search"></i></button>#}
+                        </div>
+                    </form>
+                </div>
+                {% if request.user.is_authenticated %}
+                    <div class="col col-md-3 col-6">
+                    <button type="button" class="cart_btn">
+                  <span class="cart_icon">
+
+
+                          <i class="icon icon-ShoppingCart"></i>
+{#                      	<small class="cart_counter">1</small>#}
+
+
+                  </span>
+                        <a href="{% url 'user_basket_page' %}"><span class="cart_amount">سبد خرید  </span></a>
+                    </button>
+                </div>
+                {% else %}
+                    <div class="col col-md-3 col-6">
+                    <button type="button" class="cart_btn" href="{% url 'login-phone-page' %}">
+                  <span class="cart_icon">
+                    <i class="icon icon-ShoppingCart"></i>
+                  </span>
+                        <span class="cart_amount" href="{% url 'login-phone-page' %}">  برای دیدن سبد خرید ابتدا وارد سایت شوید</span>
+                    </button>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</header>
+
+

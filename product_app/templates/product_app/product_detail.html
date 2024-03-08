@@ -1,0 +1,223 @@
+{% extends 'shared/layout.html' %}
+{% load poll_extras %}
+
+{% block title %}
+    {{ product.title }}
+{% endblock %}
+
+{% block content %}
+
+
+
+    <!-- breadcrumb_section - start
+    ================================================== -->
+    <div class="breadcrumb_section">
+        <div class="container">
+            <ul class="breadcrumb_nav ul_li">
+                <li><a href="{% url 'home_page' %}">صفحه اصلی</a></li>
+                <li>جزئیات محصول</li>
+            </ul>
+        </div>
+    </div>
+    <!-- breadcrumb_section - end
+    ================================================== -->
+
+    <!-- product_details - start
+    ================================================== -->
+    <section class="product_details section_space pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col col-lg-6">
+                    <div class="item_image">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <!-- Slideshow container -->
+                        <div class="scroll-container">
+                            {% for group in product_galleries_group %}
+                                {% for product in group %}
+
+                                    <img src="{{ product.image.url }}" alt="Cinque Terre">
+
+                                {% endfor %}
+
+                            {% endfor %}
+                        </div>
+                        <!-- Full-width images with number and caption text -->
+
+
+                    {##}
+                    {#                        <div class="details_image_carousel">#}
+                    {#                            {% if product.image %}#}
+                    {#                                {% for image in product.image %}#}
+                    {#                                    <div class="slider_item">#}
+                    {#                                        <img src="{{ product.image.url }}" id="main_image"#}
+                    {#                                             alt="Getyootech - Gadgets Ecommerce Site Template">#}
+                    {#                                    </div>#}
+                    {#                                {% endfor %}#}
+                    {#                            {% endif %}#}
+                    {##}
+                    {#                        </div>#}
+                    {##}
+                    {#                        <div class="details_image_carousel_nav" style="padding-bottom: 20px">#}
+                    {#                            {% for group in product_galleries_group %}#}
+                    {#                                <div class="item {% if forloop.first %}active{% endif %}">#}
+                    {#                                    {% for gallery in group %}#}
+                    {#                                        <a class="slider_item" onclick="showLargeImage('{{ gallery.image.url }}')">#}
+                    {#                                            <img src="{{ gallery.image.url }}" width="75" height="75" alt="">#}
+                    {#                                        </a>#}
+                    {#                                    {% endfor %}#}
+                    {##}
+                    {#                                </div>#}
+                    {#                            {% endfor %}#}
+                    {#                        </div>#}
+
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="product_details_content">
+                    <h2 class="item_title">{{ product.title }} </h2>
+                    <p>
+                        {{ product.short_description }}
+                    </p>
+                    <div class="item_review">
+                        <span class="review_value">تعداد موجودی : {{ product.quantity }}</span>
+                    </div>
+                    <div class="item_price">
+                        {% if product.off_price %}
+                            <span>{{ product.off_price|three_digits_currency }}</span>
+                            <del>{{ product.price|three_digits_currency }}</del>
+
+                        {% else %}
+                            <span>{{ product.price|three_digits_currency }}</span>
+                        {% endif %}
+                    </div>
+
+                    <hr>
+
+
+                    <div class="quantity_wrap">
+
+                        <div class="quantity_input">
+                            <button type="button" class="input_number_decrement">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <input class="input_number" type="text" value="1" id="product-count" min="1">
+                            <button type="button" class="input_number_increment">
+                                <i class="fal fa-plus"></i>
+                            </button>
+                        </div>
+
+
+                    </div>
+
+                    <ul class="default_btns_group ul_li">
+                        <li><a class="addtocart_btn" onclick="addProductToOrder({{ product.id }})">
+                            <button>افزودن به سبد خرید</button>
+                        </a></li>
+                        <li><a href="#!"><i class="fas fa-heart"></i></a></li>
+                    </ul>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="details_information_tab">
+            <ul class="tabs_nav nav ul_li" role=tablist>
+                <li role="presentation">
+                    <button class="active" data-bs-toggle="tab" data-bs-target="#description_tab" type="button"
+                            role="tab" aria-controls="description_tab" aria-selected="true">
+                        شرح
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="description_tab" role="tabpanel">
+                    <p dir="rtl">{{ product.description }}</p>
+                </div>
+
+            </div>
+        </div>
+        </div>
+    </section>
+    <!-- product_details - end
+    ================================================== -->
+
+    <!-- related_products_section - start
+    ================================================== -->
+    <section class="related_products_section section_space">
+        <div class="container">
+            <div class="section_title mb-0">
+                <h2 class="title_text">محصولات مرتبط</h2>
+            </div>
+            <div class="product_wrap related_products_wrap">
+
+                {% for group in related_products %}
+                    {% for product in group %}
+                        <div class="product_layout1" dir="rtl">
+                            <div class="item_badge sale_badge">
+                                <span>فروش</span>
+                            </div>
+                            <div class="item_image">
+                                <img src="{{ product.image.url }}"
+                                     alt="Getyootech - Gadgets Ecommerce Site Template">
+                                <a class="quickview_btn" data-bs-toggle="modal" href="{{ product.get_absolute_url }}"
+                                   role="button">مشاهده
+                                    سریع</a>
+                            </div>
+                            <div class="item_content">
+                                <h3 class="item_title">
+                                    <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+                                </h3>
+                                <div class="item_price">
+                                    {% if product.off_price %}
+                                        <span>{{ product.off_price|three_digits_currency }}</span>
+                                        <del>{{ product.price|three_digits_currency }}</del>
+
+                                    {% else %}
+                                        <span>{{ product.price|three_digits_currency }}</span>
+                                    {% endif %}
+                                </div>
+                                <ul class="item_btns_group ul_li">
+                                    <li><a class="addtocart_btn" href="{{ product.get_absolute_url }}">مشاهده جزییات</a>
+                                    </li>
+                                    <li><a href="#!"><i class="fas fa-heart"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+                {% endfor %}
+
+
+            </div>
+        </div>
+    </section>
+    <!-- related_products_section - end
+    ================================================== -->
+
+    <!-- newsletter_section - start
+{% endblock %}
+
+
+
+
+
+
+
+

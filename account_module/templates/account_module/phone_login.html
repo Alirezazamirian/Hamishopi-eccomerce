@@ -1,0 +1,68 @@
+
+
+
+{% extends 'shared/layout.html' %}
+
+{% block title %}
+    ورود
+{% endblock %}
+
+{% block content %}
+    <section class="register_section section_space">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <ul class="nav register_tabnav ul_li_center" role="tablist">
+                        <li role="presentation">
+                            <button data-bs-toggle="tab" data-bs-target="#signup_tab" type="button" role="tab"
+                                    aria-controls="signup_tab" aria-selected="true" class="active">
+                                ورود با شماره همراه
+                            </button>
+                        </li>
+                    </ul>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="register_wrap tab-content">
+
+                        <div class="tab-pane fade active show" id="signup_tab" role="tabpanel">
+                            <form action="{% url 'login-phone-page' %} " method="post">
+                                {% csrf_token %}
+                                <div class="form_item_wrap">
+                                    <h3 class="input_title">شماره همراه*</h3>
+                                    <div class="form_item">
+                                        <label ><i class="fas fa-phone"></i></label>
+                                        {{ login_form.phone }}
+                                        <span>{{ login_form.phone.help_text }}</span>
+                                    </div>
+                                </div>
+
+
+                                <div class="text-start">
+                                    <button type="submit" class="btn btn_secondary">اکنون وارد شوید</button>
+                                    <a href="{% url 'login-username-page' %}"> ورود با نام کاربری
+                                    </a>
+                                </div>
+
+                                <div>
+                                    <p></p>
+                                    <p></p>
+                                    <p>ثبت نام نکردی؟</p><a href="{% url 'register-page' %}"> ثبت نام کنید </a>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

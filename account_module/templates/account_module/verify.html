@@ -1,0 +1,42 @@
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="/static/css/assets/verify/bootstrap.min.map.css" rel="stylesheet">
+</head>
+<!------ Include the above in your HEAD tag ---------->
+
+
+
+<div class="wrapper fadeInDown">
+  <div id="formContent" style="width: max-content">
+    <div class="fadeIn first">
+        <div>
+            {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+        </div>
+
+        <div>
+            <h2>ارسال کد</h2>
+        </div>
+      <img src="/static/images/register/otp.png" id="icon" alt="User Icon" width="150"/>
+    </div>
+    <form action="{% url 'verify-page' %}" method="post">
+        {% csrf_token %}
+        <input type="text" value="{{ mobile }}" readonly disabled class="fadeIn second" name="mobile" >
+        <input type="text"  required class="fadeIn second" name="otp"  placeholder="کد اس ام اس شده را وارد کنید">
+        <input type="submit" class="fadeIn fourth" value="ثبت" style="cursor: pointer">
+    </form>
+{#    <div id="formFooter">#}
+{#      <a class="underlineHover" href="#">تغییر شماره موبایل؟</a>#}
+{#    </div>#}
+  </div>
+</div>

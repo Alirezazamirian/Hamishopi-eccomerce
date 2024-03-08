@@ -1,0 +1,109 @@
+{% extends 'shared/layout.html' %}
+{% load poll_extras %}
+{% load render_partial %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="breadcrumb_section">
+        <div class="container">
+            <ul class="breadcrumb_nav ul_li">
+                <li><a href="{% url 'home_page' %}">صفحه اصلی</a></li>
+                <li>جزئیات وبلاگ</li>
+            </ul>
+        </div>
+    </div>
+    <!-- breadcrumb_section - end
+    ================================================== -->
+
+    <!-- blog_details - start
+    ================================================== -->
+    <section class="blog_details section_space">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col col-lg-8">
+                    <div class="details_image">
+                        <img src="{{ article.image.url }}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                    </div>
+                    <ul class="post_meta ul_li">
+                        <li> تاریخ ثبت : {{ article.get_jalali_create_time }}</li>
+                        <li>{{ article.create_date | show_jalali_date }}</li>
+                    </ul>
+                    <h2 class="details_item_title">
+                        {{ article.title }}
+                    </h2>
+                    <p>{{ article.text }}</p>
+
+                    <div class="comment_area">
+                        <h3 class="area_title">کامنت ها({{ comments_count }})</h3>
+                        <ul class="comment_list ul_li_block">
+                            {% for comment in comments %}
+
+                            <li>
+                                <div class="comment_item clearfix">
+                                    <div class="thumbnail_wrap">
+                                        <img src="{{ comment.user.avatar.url }}"
+                                             alt="Getyootech - Gadgets Ecommerce Site Template">
+                                    </div>
+                                    <div class="content_wrap">
+                                        <h4 class="hero_name">{{ comment.user.get_full_name }}<span
+                                                class="comment_date">({{ comment.create_date | show_jalali_date }})</span></h4>
+                                        <p>
+                                            {{ comment.text }}
+                                        </p>
+                                        </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+
+                    <div class="comment_form_area">
+                        <h3 class="area_title">ثبت کامنت</h3>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="border_wrap">
+                                <div class="form_wrap">
+                                    <div class="row">
+                                        <div class="col col-md-6">
+                                            <div class="form_item">
+                                                {{ form.first_name.label_tag }}
+                                                {{ form.first_name }}
+                                                {{ form.first_name.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="col col-md-6">
+                                            <div class="form_item">
+                                                {{ form.last_name.label_tag }}
+                                                {{ form.last_name }}
+                                                {{ form.last_name.errors }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form_item">
+                                        {{ form.text.label_tag }}
+                                        {{ form.text }}
+                                        {{ form.text.errors }}
+                                    </div>
+                                </div>
+                                <div class="btn_wrap">
+                                    <button type="submit" class="btn btn_primary">ثبت</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- blog_details - end
+
+{% endblock %}

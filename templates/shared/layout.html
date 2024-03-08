@@ -1,0 +1,51 @@
+{% load render_partial %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>    {% block title %}{% endblock %}</title>
+    {% include 'shared/header_references.html' %}
+</head>
+
+
+<body>
+
+
+
+<!-- body_wrap - start -->
+<div class="body_wrap">
+
+    <!-- backtotop - start -->
+    <div class="backtotop">
+        <a href="#" class="scroll">
+            <i class=" fa fa-arrow-up"></i>
+        </a>
+    </div>
+    <!-- backtotop - end -->
+
+    <!-- preloader - start -->
+{#    <div id="preloader"></div>#}
+    <!-- preloader - end -->
+
+{% render_partial 'home_module.views.site_header_component' %}
+
+
+{% block content %}
+{% endblock %}
+    <!-- footer_section - start
+    ================================================== -->
+{% render_partial 'home_module.views.site_footer_component' %}
+
+{% include 'shared/footer_references.html' %}
+</div>
+<!-- body_wrap - end -->
+
+
+</body>
+</html>

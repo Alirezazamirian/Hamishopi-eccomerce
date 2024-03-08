@@ -1,0 +1,13 @@
+{% extends 'shared/layout.html' %}
+
+{% block title %} نتیجه پرداخت {% endblock %}
+
+{% block content %}
+    {% if info %}
+        {{ info }}
+    {% endif %} {% if error %}
+        {{ error }}
+    {% endif %} {% if success %}
+        {{ success }}
+    {% endif %}
+{% endblock %}
