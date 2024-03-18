@@ -3,11 +3,19 @@
 {% block title %} نتیجه پرداخت {% endblock %}
 
 {% block content %}
-    {% if info %}
-        {{ info }}
-    {% endif %} {% if error %}
-        {{ error }}
-    {% endif %} {% if success %}
-        {{ success }}
+            {% if messages %}
+        {% for message in messages %}
+            <div style="background: lightgreen; color:black; margin-bottom: 40px; margin-top: 40px;padding-bottom: 20px; padding-top: 20px ; border-radius: 60px" dir="rtl" align="center">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            </button>
+                {{ message }}
+            </div>
+            <div dir="rtl" align="center" style="margin-bottom: 100px">
+            <p>برای مشاهده و پیگیری سفارش به <a href="{% url 'ordered_list_page' %}">پنل کاربری</a> مراجعه کنید</p>
+            </div>
+            <div dir="rtl" align="center" style="margin-bottom: 50px; background-color: yellow; color: black; padding-top: 20px; padding-bottom: 20px">
+            جهت پیگیری سریع با کارشناس مربوطه تماس حاصل فرمایید و یا در اینستاگرام پیام دهید.(شماره در پایین درج شده)
+            </div>
+        {% endfor %}
     {% endif %}
 {% endblock %}

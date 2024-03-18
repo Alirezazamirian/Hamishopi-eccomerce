@@ -6,11 +6,13 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views import View
 from django.views.generic import CreateView, ListView
-
+from datetime import time, datetime
 from account_module.models import User
-from order_module.models import Order, OrderDetail
+from order_module.models import Order, OrderDetail, OrderFormClass
+from product_app.models import Product
 from user_panel.forms import EditProfileModelForm, ChangePasswordForm, ShippingUserForm
 from django.utils.decorators import method_decorator
+from django.utils import timezone
 
 
 @method_decorator(login_required, name='dispatch')
@@ -109,10 +111,12 @@ def shipping_form(request: HttpRequest):
     current_order, created = Order.objects.prefetch_related('orderdetail_set').get_or_create(is_paid=False,
                                                                                              user_id=request.user.id)
     total_amount = current_order.calculate_total_price()
+    shipping_total_amount = total_amount + 40000
+
     if request.method == 'GET':
         if current_order.orderdetail_set.all().exists():
             form = ShippingUserForm()
-            shipping_total_amount = total_amount + 40000
+
             context = {
                 'form': form,
                 'order': current_order,
@@ -125,14 +129,33 @@ def shipping_form(request: HttpRequest):
             return render(request, 'article_module/video_list.html', {})
     if request.method == 'POST':
         form = ShippingUserForm(request.POST)
+        final_order, created = Order.objects.get_or_create(is_paid=False, user_id=request.user.id)
 
         if form.is_valid():
             order = form.save(commit=False)
             order.user = request.user
             order.save()
-            return redirect('request_payment')
+            final_order.is_paid = True
+            final_order.payment_date = timezone.now()
+            final_order.save()
+            big = OrderDetail.objects.filter(order__is_paid=True, order=final_order, product__off_price__isnull=True)
+            small = OrderDetail.objects.filter(order__is_paid=True, order=final_order, product__off_price__isnull=False)
+            for detail in big:
+                detail.final_price = detail.product.price
+                detail.save()
 
-        context = {'form': form}
+            for detail in small:
+                detail.final_price = detail.product.off_price
+                detail.save()
+
+            return redirect('final_payment')
+            # return redirect('request_payment')
+
+        context = {'form': form,
+                   'order': current_order,
+                   'shipping_sum': shipping_total_amount,
+                   'sum': total_amount,
+                   'shipping': 40000}
         return render(request, 'user_panel/shipping_form.html', context)
 
 

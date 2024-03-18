@@ -74,6 +74,12 @@
                             {{ form.instagram }}
                         </div>
 
+                        <div class="form_item mb-5">
+                            <h4 class="input_title">کد پیگیری*</h4>
+                            {{ form.followup_code }}
+                            {{ form.followup_code.errors }}
+                        </div>
+
                     </div>
 
                         <div class="checkout_widget">
@@ -82,7 +88,7 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>تولید</th>
+                                    <th>محصول</th>
                                     <th>قیمت</th>
                                     <th>تعداد</th>
                                     <th>مجموع</th>

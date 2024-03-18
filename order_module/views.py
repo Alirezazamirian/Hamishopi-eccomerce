@@ -1,5 +1,5 @@
 from datetime import time, datetime
-
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, JsonResponse, HttpResponse
 from django.shortcuts import redirect, render
@@ -134,6 +134,14 @@ def add_product_to_order(request: HttpRequest):
         })
 
 
+def final_payment(request: HttpRequest):
+
+    if request.method == 'GET':
+
+        messages.success(request,"سفارش شما با موفقیت ثبت شد و پس از تایید براتون ارسال خواهد شد. ")
+        return render(request, 'order_module/payment_result.html', {})
+
+
 @login_required
 def request_payment(request: HttpRequest):
     current_order, created = Order.objects.get_or_create(is_paid=False, user_id=request.user.id)
@@ -179,7 +187,7 @@ def verify_payment(request: HttpRequest):
                 current_form.is_paid = True
                 current_form.save()
                 current_order.is_paid = True
-                current_order.payment_date = datetime.now().time()
+                current_order.payment_date = datetime.now()
                 current_order.save()
                 ref_str = req.json()['data']['ref_id']
                 return render(request, 'order_module/payment_result.html', {

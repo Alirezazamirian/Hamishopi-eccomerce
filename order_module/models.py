@@ -8,6 +8,9 @@ from account_module.forms import validate_phone_number_startswith_09
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='کاربر')
     is_paid = models.BooleanField(default=False,verbose_name='نهایی شده/نشده')
+    is_start = models.BooleanField(default=True, verbose_name='در حال بررسی')
+    is_progress = models.BooleanField(default=False, verbose_name='در حال انجام')
+    is_finish = models.BooleanField(default=False, verbose_name='ارسال شده')
     payment_date = models.DateField(null=True, blank=True, verbose_name='تاریخ پرداخت')
 
     def __str__(self):
@@ -59,7 +62,8 @@ class OrderFormClass(models.Model):
     city = models.CharField(blank=True, max_length=30, verbose_name='شهر سفارش دهنده')
     address = models.TextField(blank=True, max_length=200, verbose_name='آدرس سفارش دهنده')
     postal_code = models.CharField(blank=True, max_length=30, verbose_name='کد پستی سفارش دهنده')
-    phone = models.CharField(blank=True, max_length=30, verbose_name='شماره سفارش دهنده', validators=[validate_phone_number_startswith_09])
+    phone = models.CharField(null=True, blank=True, max_length=30, verbose_name='شماره سفارش دهنده', validators=[validate_phone_number_startswith_09])
+    followup_code = models.IntegerField(blank=True, verbose_name='کد پیگیری')
     instagram = models.CharField(max_length=30, blank=True, null=True, verbose_name='ایدی اینستا سفارش دهنده')
     is_paid = models.BooleanField(default=False, verbose_name='نهایی شده/نشده')
 
