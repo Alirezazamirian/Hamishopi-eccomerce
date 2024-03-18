@@ -81,5 +81,15 @@ function changeOrderDetailCount(detailId, state) {
 }
 
 function refreshPage() {
-            location.reload(); // Reloads the current page
-        }
+    location.reload(); // Reloads the current page
+}
+
+function myFunction() {
+    Swal.fire({
+        icon: "success",
+        title: "Your work has been saved",
+        showConfirmButton: false,
+        timer: 1500
+    });
+}
+

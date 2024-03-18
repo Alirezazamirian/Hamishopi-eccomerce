@@ -45,7 +45,7 @@ class ArticleComment(models.Model):
     first_name = models.CharField(max_length=100, blank=True, null=True, verbose_name='نام')
     last_name = models.CharField(max_length=100, blank=True, null=True, verbose_name='نام خانوادگی')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='کاربر')
-    create_date = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت')
+    create_date = models.DateTimeField(auto_now_add=True, blank=True , verbose_name='تاریخ ثبت')
     text = models.TextField(verbose_name='متن نظر')
     is_okay = models.BooleanField(default=False, verbose_name='مورد تایید')
 

@@ -38,65 +38,94 @@
                     <p>{{ article.text }}</p>
 
                     <div class="comment_area">
-                        <h3 class="area_title">کامنت ها({{ comments_count }})</h3>
+                        <h3 class="area_title">نظرات({{ comments_count }})</h3>
                         <ul class="comment_list ul_li_block">
                             {% for comment in comments %}
 
-                            <li>
-                                <div class="comment_item clearfix">
-                                    <div class="thumbnail_wrap">
-                                        <img src="{{ comment.user.avatar.url }}"
-                                             alt="Getyootech - Gadgets Ecommerce Site Template">
-                                    </div>
-                                    <div class="content_wrap">
-                                        <h4 class="hero_name">{{ comment.user.get_full_name }}<span
-                                                class="comment_date">({{ comment.create_date | show_jalali_date }})</span></h4>
-                                        <p>
-                                            {{ comment.text }}
-                                        </p>
+                                <li>
+                                    <div class="comment_item clearfix">
+                                        <div class="thumbnail_wrap">
+                                            {% if comment.user.avatar %}
+                                                <img src="{{ comment.user.avatar.url }}"
+                                                     alt="Getyootech - Gadgets Ecommerce Site Template">
+                                            {% else %}
+                                                <img src="/static/images/author/avatarpng.png"
+                                                     alt="Getyootech - Gadgets Ecommerce Site Template">
+                                            {% endif %}
+
                                         </div>
-                                </div>
-                            </li>
+                                        <div class="content_wrap">
+                                            <h4 class="hero_name">{{ comment.first_name}} {{ comment.last_name }}<span
+                                                    class="comment_date">({{ comment.create_date | show_jalali_date }})</span>
+                                            </h4>
+                                            <p>
+                                                {{ comment.text }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
                             {% endfor %}
 
                         </ul>
                     </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div style="background: lightgreen; color:dimgray; margin-bottom: 10px; border-radius: 60px">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 
+                                </button>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                     <div class="comment_form_area">
-                        <h3 class="area_title">ثبت کامنت</h3>
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="border_wrap">
-                                <div class="form_wrap">
-                                    <div class="row">
-                                        <div class="col col-md-6">
-                                            <div class="form_item">
-                                                {{ form.first_name.label_tag }}
-                                                {{ form.first_name }}
-                                                {{ form.first_name.errors }}
+
+                        {% if user.is_authenticated %}
+                            <h3 class="area_title">برای مقاله کامنت ثبت کنید</h3>
+                            <form method="post">
+                                {% csrf_token %}
+
+                                <div class="border_wrap">
+                                    <div class="form_wrap">
+                                        <div class="row">
+                                            <div class="col col-md-6">
+                                                <div class="form_item">
+                                                    <h4 class="input_title">نام :</h4>
+                                                    {{ form.first_name }}
+                                                    {{ form.first_name.errors }}
+                                                </div>
+                                            </div>
+                                            <div class="col col-md-6">
+                                                <div class="form_item">
+                                                    <h4 class="input_title">نام خانوادگی :</h4>
+
+                                                    {{ form.last_name }}
+                                                    {{ form.last_name.errors }}
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col col-md-6">
-                                            <div class="form_item">
-                                                {{ form.last_name.label_tag }}
-                                                {{ form.last_name }}
-                                                {{ form.last_name.errors }}
-                                            </div>
+
+
+                                        <div class="form_item">
+                                            <h4 class="input_title">متن کامنت :</h4>
+                                            {{ form.text }}
+                                            {{ form.text.errors }}
                                         </div>
                                     </div>
-
-
-                                    <div class="form_item">
-                                        {{ form.text.label_tag }}
-                                        {{ form.text }}
-                                        {{ form.text.errors }}
+                                    <div class="btn_wrap">
+                                        <button type="submit" class="btn btn_primary">ثبت</button>
                                     </div>
                                 </div>
-                                <div class="btn_wrap">
-                                    <button type="submit" class="btn btn_primary">ثبت</button>
+                            </form>
+                        {% else %}
+                            <div class="col-sm-12">
+                                <div class="alerting-danger" style="border-radius: 60px">
+
+                                    <p class="alerting-danger" style="border-radius: 60px">برای ثبت نظر ابتدا وارد <a
+                                            href="{% url 'login-username-page' %}">حساب کاربری</a> خود شوید</p>
                                 </div>
                             </div>
-                        </form>
+                        {% endif %}
                     </div>
 
                 </div>

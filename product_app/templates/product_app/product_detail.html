@@ -1,6 +1,8 @@
 {% extends 'shared/layout.html' %}
 {% load poll_extras %}
 
+
+
 {% block title %}
     {{ product.title }}
 {% endblock %}
@@ -22,6 +24,20 @@
     <!-- breadcrumb_section - end
     ================================================== -->
 
+    <div class="col-sm-12" align="center">
+        {% if messages %}
+            {% for message in messages %}
+                <div style="background: lightgreen; color:dimgray; margin-bottom: 10px; border-radius: 60px" dir="rtl">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+                    </button>
+                    {{ message }}
+
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
     <!-- product_details - start
     ================================================== -->
     <section class="product_details section_space pb-5">
@@ -29,19 +45,6 @@
             <div class="row">
                 <div class="col col-lg-6">
                     <div class="item_image">
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                         <!-- Slideshow container -->
@@ -58,100 +61,336 @@
                         <!-- Full-width images with number and caption text -->
 
 
-                    {##}
-                    {#                        <div class="details_image_carousel">#}
-                    {#                            {% if product.image %}#}
-                    {#                                {% for image in product.image %}#}
-                    {#                                    <div class="slider_item">#}
-                    {#                                        <img src="{{ product.image.url }}" id="main_image"#}
-                    {#                                             alt="Getyootech - Gadgets Ecommerce Site Template">#}
-                    {#                                    </div>#}
-                    {#                                {% endfor %}#}
-                    {#                            {% endif %}#}
-                    {##}
-                    {#                        </div>#}
-                    {##}
-                    {#                        <div class="details_image_carousel_nav" style="padding-bottom: 20px">#}
-                    {#                            {% for group in product_galleries_group %}#}
-                    {#                                <div class="item {% if forloop.first %}active{% endif %}">#}
-                    {#                                    {% for gallery in group %}#}
-                    {#                                        <a class="slider_item" onclick="showLargeImage('{{ gallery.image.url }}')">#}
-                    {#                                            <img src="{{ gallery.image.url }}" width="75" height="75" alt="">#}
-                    {#                                        </a>#}
-                    {#                                    {% endfor %}#}
-                    {##}
-                    {#                                </div>#}
-                    {#                            {% endfor %}#}
-                    {#                        </div>#}
+                        {##}
+                        {#                        <div class="details_image_carousel">#}
+                        {#                            {% if product.image %}#}
+                        {#                                {% for image in product.image %}#}
+                        {#                                    <div class="slider_item">#}
+                        {#                                        <img src="{{ product.image.url }}" id="main_image"#}
+                        {#                                             alt="Getyootech - Gadgets Ecommerce Site Template">#}
+                        {#                                    </div>#}
+                        {#                                {% endfor %}#}
+                        {#                            {% endif %}#}
+                        {##}
+                        {#                        </div>#}
+                        {##}
+                        {#                        <div class="details_image_carousel_nav" style="padding-bottom: 20px">#}
+                        {#                            {% for group in product_galleries_group %}#}
+                        {#                                <div class="item {% if forloop.first %}active{% endif %}">#}
+                        {#                                    {% for gallery in group %}#}
+                        {#                                        <a class="slider_item" onclick="showLargeImage('{{ gallery.image.url }}')">#}
+                        {#                                            <img src="{{ gallery.image.url }}" width="75" height="75" alt="">#}
+                        {#                                        </a>#}
+                        {#                                    {% endfor %}#}
+                        {##}
+                        {#                                </div>#}
+                        {#                            {% endfor %}#}
+                        {#                        </div>#}
 
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-lg-6">
-                <div class="product_details_content">
-                    <h2 class="item_title">{{ product.title }} </h2>
-                    <p>
-                        {{ product.short_description }}
-                    </p>
-                    <div class="item_review">
-                        <span class="review_value">تعداد موجودی : {{ product.quantity }}</span>
-                    </div>
-                    <div class="item_price">
-                        {% if product.off_price %}
-                            <span>{{ product.off_price|three_digits_currency }}</span>
-                            <del>{{ product.price|three_digits_currency }}</del>
+                <div class="col-lg-6">
+                    <div class="product_details_content">
+                        <h2 class="item_title">{{ product.title }} </h2>
+                        <p>
+                            {{ product.short_description }}
+                        </p>
+                        <div class="item_review">
+                            <span class="review_value">تعداد موجودی : {{ product.quantity }}</span>
+                        </div>
+                        <div class="item_price">
+                            {% if product.off_price %}
+                                <span>{{ product.off_price|three_digits_currency }}</span>
+                                <del>{{ product.price|three_digits_currency }}</del>
 
-                        {% else %}
-                            <span>{{ product.price|three_digits_currency }}</span>
-                        {% endif %}
-                    </div>
-
-                    <hr>
-
-
-                    <div class="quantity_wrap">
-
-                        <div class="quantity_input">
-                            <button type="button" class="input_number_decrement">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                            <input class="input_number" type="text" value="1" id="product-count" min="1">
-                            <button type="button" class="input_number_increment">
-                                <i class="fal fa-plus"></i>
-                            </button>
+                            {% else %}
+                                <span>{{ product.price|three_digits_currency }}</span>
+                            {% endif %}
                         </div>
 
+                        <hr>
+
+
+                        <div class="quantity_wrap">
+
+                            <div class="quantity_input">
+                                <button type="button" class="input_number_decrement">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                <input class="input_number" type="text" value="1" id="product-count" min="1">
+                                <button type="button" class="input_number_increment">
+                                    <i class="fal fa-plus"></i>
+                                </button>
+                            </div>
+
+
+                        </div>
+
+                        <ul class="default_btns_group ul_li">
+                            <li><a class="addtocart_btn" onclick="addProductToOrder({{ product.id }})">
+                                <button>افزودن به سبد خرید</button>
+                            </a></li>
+                            <li><a href="#!"><i class="fas fa-heart"></i></a></li>
+                        </ul>
+
 
                     </div>
-
-                    <ul class="default_btns_group ul_li">
-                        <li><a class="addtocart_btn" onclick="addProductToOrder({{ product.id }})">
-                            <button>افزودن به سبد خرید</button>
-                        </a></li>
-                        <li><a href="#!"><i class="fas fa-heart"></i></a></li>
-                    </ul>
-
-
                 </div>
             </div>
-        </div>
 
-        <div class="details_information_tab">
-            <ul class="tabs_nav nav ul_li" role=tablist>
-                <li role="presentation">
-                    <button class="active" data-bs-toggle="tab" data-bs-target="#description_tab" type="button"
-                            role="tab" aria-controls="description_tab" aria-selected="true">
-                        شرح
-                    </button>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="description_tab" role="tabpanel">
-                    <p dir="rtl">{{ product.description }}</p>
+            <div class="details_information_tab">
+                <ul class="tabs_nav nav ul_li" role=tablist>
+                    <li role="presentation">
+                        <button class="active" data-bs-toggle="tab" data-bs-target="#description_tab" type="button"
+                                role="tab" aria-controls="description_tab" aria-selected="true">
+                            شرح
+                        </button>
+                    </li>
+                    <li role="presentation">
+                        <button data-bs-toggle="tab" data-bs-target="#reviews_tab" type="button" role="tab"
+                                aria-controls="reviews_tab" aria-selected="false">
+                            نظرات ({{ comments_count }})
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="description_tab" role="tabpanel">
+                        <p dir="rtl">{{ product.description }}</p>
+                    </div>
+                    <div class="tab-pane fade" id="reviews_tab" role="tabpanel" dir="rtl">
+                        <div class="average_area">
+                            <h4 class="reviews_tab_title">میانگین امتیازات</h4>
+                            <div class="row align-items-center">
+                                <div class="col-md-5 order-last">
+                                    <div class="average_rating_text">
+                                        <ul class="rating_star ul_li_center">
+                                            {% if product.avg_rating == 5 %}
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star-half-alt"></i></li>
+                                            {% elif product.avg_rating > 4 and product.avg_rating < 5 %}
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star-half-alt"></i></li>
+                                            {% elif product.avg_rating == 4 %}
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                            {% elif product.avg_rating > 3 and product.avg_rating < 4 %}
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star-half-alt"></i></li>
+                                            {% elif product.avg_rating == 3 %}
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                            {% elif product.avg_rating > 2 and product.avg_rating < 3 %}
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star-half-alt"></i></li>
+                                            {% elif product.avg_rating == 2 %}
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                            {% elif product.avg_rating > 1 and product.avg_rating < 2 %}
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star-half-alt"></i></li>
+                                            {% elif product.avg_rating == 1 %}
+                                                <li><i class="fas fa-star"></i></li>
+                                            {% elif product.avg_rating > 0 and product.avg_rating < 1 %}
+                                                <li><i class="fas fa-star-half-alt"></i></li>
+                                            {% endif %}
+
+                                        </ul>
+                                        <p class="mb-0">
+                                            میانگین امتیاز کاربران: <span>{{ product.avg_rating }}  از5</span>
+                                            ({{ comments_count }} رای)
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="product_ratings_progressbar">
+                                        <ul class="five_star ul_li">
+                                            <li><span>{{ five_score }} نفر</span></li>
+                                            <li>
+                                                <div class="progress_bar"></div>
+                                            </li>
+                                            <li>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </li>
+                                        </ul>
+                                        <ul class="four_star ul_li">
+                                            <li><span>{{ four_score }} نفر</span></li>
+                                            <li>
+                                                <div class="progress_bar"></div>
+                                            </li>
+                                            <li>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </li>
+                                        </ul>
+                                        <ul class="three_star ul_li">
+                                            <li><span>{{ three_score }} نفر</span></li>
+                                            <li>
+                                                <div class="progress_bar"></div>
+                                            </li>
+                                            <li>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </li>
+                                        </ul>
+                                        <ul class="two_star ul_li">
+                                            <li><span>{{ two_score }} نفر</span></li>
+                                            <li>
+                                                <div class="progress_bar"></div>
+                                            </li>
+                                            <li>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </li>
+                                        </ul>
+                                        <ul class="one_star ul_li">
+                                            <li><span>{{ one_score }} نفر</span></li>
+                                            <li>
+                                                <div class="progress_bar"></div>
+                                            </li>
+                                            <li>
+                                                <i class="fas fa-star"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="customer_reviews">
+                            {% if comments_count == 0 %}
+                                <h4 class="reviews_tab_title">هنوز برای این محصول نظری ثبت نشده !</h4>
+                            {% else %}
+                                <h4 class="reviews_tab_title">{{ comments_count }} نظر برای این محصول</h4>
+                            {% endif %}
+                            {% for comment in comments %}
+
+                                <div class="customer_review_item clearfix">
+                                    {% if comment.user.avatar %}
+                                        <div class="customer_image">
+                                            <img src="{{ comment.user.avatar }}"
+                                                 alt="Getyootech - Gadgets Ecommerce Site Template">
+                                        </div>
+                                    {% else %}
+                                        <div class="customer_image">
+                                            <img src="/static/images/author/avatarpng.png"
+                                                 alt="Getyootech - Gadgets Ecommerce Site Template">
+                                        </div>
+                                    {% endif %}
+                                    <div class="customer_content">
+                                        <div class="customer_info">
+                                            <ul class="rating_star ul_li">
+                                                {% if comment.score == 5 %}
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                {% elif comment.score == 4 %}
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                {% elif comment.score == 3 %}
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                {% elif comment.score == 2 %}
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                {% elif comment.score == 1 %}
+                                                    <li><i class="fas fa-star"></i></li>
+                                                {% endif %}
+
+                                            </ul>
+                                            <h4 class="customer_name">{{ comment.first_name }} {{ comment.last_name }}</h4>
+                                            <span class="comment_date">({{ comment.create_date | show_jalali_date }})</span>
+                                        </div>
+                                        <p class="mb-0">
+                                            {{ comment.text }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+
+
+                        </div>
+
+                        {% if user.is_authenticated %}
+                            <div class="customer_review_form">
+                                <h4 class="reviews_tab_title">یک نظر اضافه کنید</h4>
+                                <p>
+                                    فیلدهای الزامی علامت گذاری شده اند *
+                                </p>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form_item">
+                                                <h4 class="input_title">نام* :</h4>
+                                                {{ form.first_name }}
+                                                {{ form.first_name.error_messages }}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form_item">
+                                                <h4 class="input_title">نام خانوادگی* :</h4>
+                                                {{ form.last_name }}
+                                                {{ form.last_name.error_messages }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="your_ratings">
+                                        <h5>به محصول امتیاز دهید :</h5>
+                                        {{ form.score }}
+
+                                    </div>
+                                    <div>
+                                        <span>از 1 تا 5 امتیاز دهید</span>
+                                    </div>
+                                    <p></p>
+                                    <div class="form_item">
+                                        <h4 class="input_title">متن پیام* :</h4>
+                                        {{ form.text }}
+                                        {{ form.text.error_messages }}
+                                    </div>
+                                    <button type="submit" class="btn btn_primary">اکنون ارسال کنید</button>
+
+                                </form>
+                            </div>
+                        {% else %}
+                            <div class="col-sm-12">
+                                <div class="alerting-danger" style="border-radius: 60px">
+
+                                    <p class="alerting-danger" style="border-radius: 60px">برای ثبت نظر ابتدا وارد <a
+                                            href="{% url 'login-username-page' %}">حساب کاربری</a> خود شوید</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
-
             </div>
-        </div>
         </div>
     </section>
     <!-- product_details - end

@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.urls import reverse
 from account_module.models import User
@@ -33,19 +34,21 @@ class Car(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=300, verbose_name='نام محصول')
     car = models.ForeignKey(Car,
-                                 related_name='product_car', verbose_name='ماشین', on_delete=models.CASCADE)
+                            related_name='product_car', verbose_name='ماشین', on_delete=models.CASCADE)
     brand = models.ManyToManyField(Brand, related_name='product_brand', verbose_name='برند')
     image = models.ImageField(upload_to='images/products', null=True, blank=True, verbose_name='تصویر محصول')
     price = models.IntegerField(verbose_name='قیمت')
     off_price = models.IntegerField(null=True, blank=True, verbose_name='قیمت با تخفیف')
+    avg_rating = models.FloatField(default=0, verbose_name='میانگین امتیاز')
+    number_rating = models.IntegerField(default=0, verbose_name='تعداد نظر ها')
     short_description = models.CharField(max_length=360, db_index=True, null=True, verbose_name='توضیحات کوتاه')
     description = models.TextField(verbose_name='توضیحات اصلی', db_index=True)
-    quantity = models.PositiveIntegerField(null=True,blank=True, verbose_name='تعداد موجودی')
+    quantity = models.PositiveIntegerField(null=True, blank=True, verbose_name='تعداد موجودی')
     slug = models.SlugField(default="", null=False, db_index=True, blank=True, max_length=200, unique=True,
                             verbose_name='عنوان در url')
     is_active = models.BooleanField(default=False, verbose_name='فعال / غیرفعال')
     is_delete = models.BooleanField(verbose_name='حذف شده / نشده')
-    is_new = models.BooleanField(default=False ,verbose_name='جدید')
+    is_new = models.BooleanField(default=False, verbose_name='جدید')
     is_best_sell = models.BooleanField(default=False, verbose_name='پر فروش')
     is_hot_suggest = models.BooleanField(default=False, verbose_name='یشنهاد داغ')
 
@@ -87,3 +90,22 @@ class ProductGallery(models.Model):
     class Meta:
         verbose_name = 'تصویر گالری'
         verbose_name_plural = 'گالری تصاویر'
+
+
+class ProductComment(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
+    first_name = models.CharField(max_length=100, verbose_name='نام')
+    last_name = models.CharField(max_length=100, verbose_name='نام خانوادگی')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='کاربر')
+    create_date = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='تاریخ ثبت')
+    score = models.PositiveSmallIntegerField(verbose_name='امتیاز', default=1,
+                                             validators=[MaxValueValidator(5), MinValueValidator(1)])
+    text = models.TextField(verbose_name='متن نظر')
+    is_okay = models.BooleanField(default=False, verbose_name='مورد تایید')
+
+    def __str__(self):
+        return str(self.user)
+
+    class Meta:
+        verbose_name = 'نظر محصول'
+        verbose_name_plural = 'نظرات محصول'
