@@ -3,6 +3,8 @@ from django.core import validators
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
 from . import models
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Checkbox
 
 
 def validate_phone_number_startswith_09(value):
@@ -15,6 +17,8 @@ def validate_phone_number_startswith_09(value):
 
 class RegisterForm(forms.Form):
     phone = forms.CharField(
+        error_messages={'min_length': 'شماره همراه معتبر نمیباشد!',
+                        'max_length': 'شماره همراه معتبر نمیباشد!'},
         label='شماره همراه',
         widget=forms.TextInput(
             attrs={
@@ -31,6 +35,8 @@ class RegisterForm(forms.Form):
     )
     username = forms.CharField(
         label='نام کاربری',
+        error_messages={'required': 'نام کاربری اجباری میباشد',
+                        'null_characters_not_allowed': 'فاصله بین حروف قابل قبول نیست!'},
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'نام کاربری تعریف کنید'
@@ -54,6 +60,7 @@ class RegisterForm(forms.Form):
         validators=[
             validators.MaxLengthValidator(100),
             validators.MinLengthValidator(8, 'رمز عبور باید بیشتر از 8 کارکتر باشد '),
+            validators.ProhibitNullCharactersValidator,
         ]
     )
     confirm_password = forms.CharField(
@@ -65,9 +72,11 @@ class RegisterForm(forms.Form):
         ),
         validators=[
             validators.MaxLengthValidator(100),
+            validators.ProhibitNullCharactersValidator,
 
         ]
     )
+    # captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
 
     def clean_confirm_password(self):
         password = self.cleaned_data.get('password')
@@ -95,6 +104,7 @@ class PhoneLoginForm(forms.Form):
             validate_phone_number_startswith_09
         ]
     )
+    # captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
 
 
 class LoginForm(forms.Form):
@@ -183,6 +193,7 @@ class ResetPassForm(forms.Form):
         validators=[
             validators.MaxLengthValidator(100),
             validators.MinLengthValidator(8, 'رمز عبور باید بیشتر از 8 کارکتر باشد '),
+            validators.ProhibitNullCharactersValidator,
         ]
     )
     confirm_password = forms.CharField(
@@ -194,6 +205,7 @@ class ResetPassForm(forms.Form):
         ),
         validators=[
             validators.MaxLengthValidator(100),
+            validators.ProhibitNullCharactersValidator,
 
         ]
     )

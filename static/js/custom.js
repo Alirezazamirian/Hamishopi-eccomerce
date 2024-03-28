@@ -55,7 +55,7 @@ function addProductToOrder(productId) {
             confirmButtonText: res.confirm_button_text
         }).then((result) => {
             if (result.isConfirmed && res.status === 'not_auth') {
-                window.location.href = '/login';
+                window.location.href = '/login-with-phone/';
             }
         });
     });

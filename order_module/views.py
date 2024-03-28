@@ -22,6 +22,7 @@ mobile = ''  # Optional
 # Important: need to edit for realy server.
 CallbackURL = 'http://127.0.0.1:8000/order/verify-payment/'
 
+
 # if settings.SANDBOX:
 #     sandbox = 'sandbox'
 # else:
@@ -87,7 +88,7 @@ CallbackURL = 'http://127.0.0.1:8000/order/verify-payment/'
 #             return {'status': False, 'code': str(response['Status'])}
 #     return response
 
-
+@login_required(login_url='/login-with-phone/')
 def add_product_to_order(request: HttpRequest):
     product_id = int(request.GET.get('product_id'))
     count = int(request.GET.get('count'))
@@ -122,7 +123,7 @@ def add_product_to_order(request: HttpRequest):
             return JsonResponse({
                 'status': 'not_found',
                 'text': 'محصول مورد نظر یافت نشد',
-                'confirm_button_text': 'مرسییییی',
+                'confirm_button_text': 'مرسی',
                 'icon': 'error'
             })
     else:
@@ -134,11 +135,10 @@ def add_product_to_order(request: HttpRequest):
         })
 
 
+@login_required(login_url='/register')
 def final_payment(request: HttpRequest):
-
     if request.method == 'GET':
-
-        messages.success(request,"سفارش شما با موفقیت ثبت شد و پس از تایید براتون ارسال خواهد شد. ")
+        messages.success(request, "سفارش شما با موفقیت ثبت شد و پس از تایید براتون ارسال خواهد شد. ")
         return render(request, 'order_module/payment_result.html', {})
 
 

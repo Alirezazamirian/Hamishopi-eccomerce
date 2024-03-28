@@ -8,6 +8,6 @@ urlpatterns = [
     path('forget_password/', views.ForgetPasswordView.as_view(), name='forget_password-page'),
     path('reset-pass/<activation_code>', views.ResetPasswordView.as_view(), name='reset_password_page'),
     path('logout', views.LogoutView.as_view(), name='logout_page'),
-    path('verify', views.verify, name='verify-page'),
+    path('verify/', views.verify, name='verify-page'),
 
 ]

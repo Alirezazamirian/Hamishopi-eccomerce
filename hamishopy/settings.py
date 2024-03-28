@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'article_module',
     'contact_module',
     'user_panel',
-    'order_module'
+    'order_module',
+    'django_recaptcha'
 ]
 
 MIDDLEWARE = [
@@ -154,3 +155,6 @@ Kavenegar_API = '6B566D626D4E52436B3637646143493661687A64434F686C4870456B5062434
 MERCHANT = "2ca01bb8-3b7b-4f70-85f5-fa2fcbab4373"
 
 SANDBOX = True
+
+RECAPTCHA_PUBLIC_KEY = '6LcPMaIpAAAAABjsvlABDamertaUpCuRIR51zO7v'
+RECAPTCHA_PRIVATE_KEY = '6LcPMaIpAAAAAMydbtExC3FwV-V8yehmaXxSmNeH'

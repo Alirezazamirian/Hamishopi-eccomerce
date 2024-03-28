@@ -155,7 +155,7 @@
         arrows: true,
         infinite: true,
         autoplay: true,
-        slidesToShow: 1,
+        slidesToShow: 3,
         autoplaySpeed: 6000,
     });
     $('.ms_nav_thumbnails').slick({
@@ -163,7 +163,7 @@
         arrows: false,
         infinite: true,
         vertical: true,
-        slidesToShow: 3,
+        slidesToShow: 1,
         slidesToScroll: 1,
         focusOnSelect: true,
         verticalSwiping: true,
@@ -224,7 +224,7 @@
     // common carousel 1 - start
     // --------------------------------------------------
     $('.common_carousel_1').slick({
-        dots: true,
+        dots: false,
         arrows: true,
         infinite: true,
         autoplay: true,
@@ -240,7 +240,7 @@
     // common carousel 2 - start
     // --------------------------------------------------
     $('.common_carousel_2').slick({
-        dots: true,
+        dots: false,
         speed: 1000,
         arrows: true,
         infinite: true,

@@ -10,28 +10,6 @@
 
     <body>
     <main>
-        <!-- breadcrumb_section - start
-        ================================================== -->
-        <div class="breadcrumb_section" dir="rtl">
-
-            <div class="container">
-                <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        انتخاب خودرو
-                    </a>
-
-                    <ul class="dropdown-menu">
-                        {% for category in cars %}
-                            <li><a class="dropdown-item"
-                                   href="{% url 'product-car-list' car=category.url_title %}">{{ category.title }}</a>
-                            </li>
-                        {% endfor %}
-
-                    </ul>
-                </div>
-            </div>
-        </div>
         <!-- breadcrumb_section - end
         ================================================== -->
 
@@ -39,104 +17,123 @@
         ================================================== -->
         <section class="product_section section_space">
             <div class="container">
-                {% if products %}
-                    <div class="row">
-                        <div class="col-lg-9">
-                            <div class="col-lg-3 order-lg-first">
-                                <aside class="sidebar_section ps-0 mt-lg-0">
 
-                                    <div class="sb_widget sb_category">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="filter_topbar">
+                            <div class="row align-items-center">
+                                <div class="col col-md-4 col-sm-4">
+                                </div>
 
+                                <div class="col col-md-4 col-sm-4 sorting-icon">
 
-                                </aside>
-                            </div>
+                                    <div class="select_option clearfix">
+                                        <select onchange="window.location.href=this.value;">
+                                            <option value="" data-display="انتخاب خودرو ">گزینه خود را انتخاب کنید
+                                            </option>
 
-
-                            <div class="tab-pane fade show active" id="profile" role="tabpanel">
-                                <div class="product_layout2_wrap">
-
-
-                                    {% for product in products %}
-                                        <div class="product_layout2">
-                                            <div class="item_image">
-                                                <div class="item_badge hot_badge">
-                                                    <span>فروش</span>
-                                                </div>
-                                                <a class="image_wrap" href="{{ product.get_absolute_url }}">
-                                                    {% if product.image %}
-                                                        <img src="{{ product.image.url }}" alt="" id="main_image">
-                                                    {% else %}
-                                                        <img src="/static/images/shop/product2_img_1.webp"
-                                                             alt="Getyootech - Gadgets Ecommerce Site Template">
-                                                    {% endif %}
-
-                                                </a>
-                                            </div>
-                                            <div class="item_content">
-                                                <h3 class="item_title">
-                                                    <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
-                                                </h3>
-                                                <p>{{ product.short_description }}</p>
-                                                <div class="item_price">
-                                                    {% if product.off_price %}
-                                                        <span>{{ product.off_price|three_digits_currency }}</span>
-                                                        <del>{{ product.price|three_digits_currency }}</del>
-
-                                                    {% else %}
-                                                        <span>{{ product.price|three_digits_currency }}</span>
-                                                    {% endif %}
-                                                </div>
-                                                <ul class="item_btns_group ul_li">
-                                                    <li><a href="{{ product.get_absolute_url }}">جرییات محصول</a></li>
-                                                    <li><a href="#!"><i class="fas fa-heart"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-
+                                            {% for category in cars %}
+                                                <option value="{% url 'product-car-list' car=category.url_title %}">{{ category.title }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
 
                                 </div>
 
-                                <div class="pagination_wrap">
-                                    <ul class="pagination_nav ul_li_right">
-                                        {% if page_obj.has_previous %}
-                                            <li><a href="?page={{ page_obj.previous_page_number }}" class="prev_btn"
-                                                   onclick="fillPage({{ page_obj.previous_page_number }})">قبلی</a></li>
-                                        {% endif %}
-                                        {% for pageNumber in paginator.page_range %}
-                                            <li class="{% if page_obj.number == pageNumber %} active {% endif %}">
-                                                <a href="?page={{ pageNumber }}" class="cursor-pointer"
-                                                   onclick="fillPage({{ pageNumber }})">{{ pageNumber }}</a>
-                                            </li>
-                                        {% endfor %}
-                                        {% if page_obj.has_next %}
-                                            <li><a href="?page={{ page_obj.next_page_number }}" class="next_btn"
-                                                   onclick="fillPage({{ page_obj.next_page_number }})">بعدی</a>
-                                            </li>
-                                        {% endif %}
-                                    </ul>
+                                <div class="col col-md-4 col-sm-4">
+                                    <div class="result_text">نمایش 1-12 از 30 نتیجه</div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {% else %}
-                    <div class="alert alert-warning fa-pull-right">
-                        <p>هیچ محصولی یافت نشد</p>
-                    </div>
-                {% endif %}
+                        {% if products %}
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="profile" role="tabpanel">
+                                    <div class="product_layout2_wrap">
+
+
+                                        {% for product in products %}
+                                            <div class="product_layout2">
+                                                <div class="item_image">
+                                                    <div class="item_badge hot_badge">
+                                                        <span>فروش</span>
+                                                    </div>
+                                                    <a class="image_wrap" href="{{ product.get_absolute_url }}">
+                                                        {% if product.image %}
+                                                            <img src="{{ product.image.url }}" alt="" id="main_image">
+                                                        {% else %}
+                                                            <img src="/static/images/shop/product2_img_1.webp"
+                                                                 alt="Getyootech - Gadgets Ecommerce Site Template">
+                                                        {% endif %}
+
+                                                    </a>
+                                                </div>
+                                                <div class="item_content">
+                                                    <h3 class="item_title">
+                                                        <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+                                                    </h3>
+                                                    <p>{{ product.short_description }}</p>
+                                                    <div class="item_price">
+                                                        {% if product.off_price %}
+                                                            <span>{{ product.off_price|three_digits_currency }}</span>
+                                                            <del>{{ product.price|three_digits_currency }}</del>
+
+                                                        {% else %}
+                                                            <span>{{ product.price|three_digits_currency }}</span>
+                                                        {% endif %}
+                                                    </div>
+                                                    <ul class="item_btns_group ul_li">
+                                                        <li><a href="{{ product.get_absolute_url }}">جرییات محصول</a>
+                                                        </li>
+                                                        <li><a href="#!"><i class="fas fa-heart"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+
+
+                                    </div>
+
+                                    <div class="pagination_wrap">
+                                        <ul class="pagination_nav ul_li_right">
+                                            {% if page_obj.has_previous %}
+                                                <li><a href="?page={{ page_obj.previous_page_number }}" class="prev_btn"
+                                                       onclick="fillPage({{ page_obj.previous_page_number }})">قبلی</a>
+                                                </li>
+                                            {% endif %}
+                                            {% for pageNumber in paginator.page_range %}
+                                                <li class="{% if page_obj.number == pageNumber %} active {% endif %}">
+                                                    <a href="?page={{ pageNumber }}" class="cursor-pointer"
+                                                       onclick="fillPage({{ pageNumber }})">{{ pageNumber }}</a>
+                                                </li>
+                                            {% endfor %}
+                                            {% if page_obj.has_next %}
+                                                <li><a href="?page={{ page_obj.next_page_number }}" class="next_btn"
+                                                       onclick="fillPage({{ page_obj.next_page_number }})">بعدی</a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            </div>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning fa-pull-right col-sm-12">
+                                <p>هیچ محصولی یافت نشد</p>
+                            </div>
+                        {% endif %}
 
 
             </div>
-            </div>
+
         </section>
         <!-- product_section - end
         ================================================== -->
 
 
     </main>
-
-
-    </div>
 
 
     </body>
