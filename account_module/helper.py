@@ -21,7 +21,8 @@ def send_otp(phone, otp):
         params = {
             'sender': '2000500666',  # optional
             'receptor': phone,  # multiple mobile number, split by comma
-            'message': 'otp: {}'.format(otp),
+            'message': 'به خانواده ی حامی خوش آمدید.\n'
+                       'کد ورود شما : {}'.format(otp),
         }
         response = api.sms_send(params)
         print('OTP: ', otp)
