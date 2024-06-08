@@ -1,42 +1,176 @@
+
+
+<!DOCTYPE html>
+<!-- Coding by CodingLab || www.codinglabweb.com -->
+<html lang="en">
 <head>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link href="/static/css/assets/verify/bootstrap.min.map.css" rel="stylesheet">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>OTP Verification Form</title>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet"
+          type="text/css"/>
+    <link rel="stylesheet" href="/static/css/assets/styleregister.css"/>
+    <!-- Boxicons CSS -->
+
+    <script src="/static/js/registerstyle.js" defer></script>
+
+
+    <style>
+        .swal2-title {
+            font-family: Vazirmatn, sans-serif !important;
+        }
+
+        .font-vazir {
+            font-family: Vazirmatn, sans-serif !important;
+
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
 </head>
-<!------ Include the above in your HEAD tag ---------->
+<body>
 
-
-
-<div class="wrapper fadeInDown">
-  <div id="formContent" style="width: max-content">
-    <div class="fadeIn first">
-        <div>
-            {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-        </div>
-
-        <div>
-            <h2>ارسال کد</h2>
-        </div>
-      <img src="/static/images/register/otp.png" id="icon" alt="User Icon" width="150"/>
+<div class="container d-flex flex-column justify-content-center align-items-center">
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ message }}
+                </div>
+            {% endfor %}mobile
+        {% endif %}
     </div>
+    <header>
+        <i class="bx bxs-check-shield"></i>
+    </header>
+    <h4 class="font-vazir">کد پیامکی</h4>
+    <p class="text-center user-select-none">{{ mobile }}</p>
     <form action="{% url 'verify-page' %}" method="post">
         {% csrf_token %}
-        <input type="text" value="{{ mobile }}" readonly disabled class="fadeIn second" name="mobile" >
-        <input type="text"  required class="fadeIn second" name="otp"  placeholder="کد اس ام اس شده را وارد کنید">
-        <input type="submit" class="fadeIn fourth" value="ثبت" style="cursor: pointer">
+        <div class="input-field">
+            <input type="number" name="otp_one"/>
+            <input type="number" name="otp_two" disabled/>
+            <input type="number" name="otp_three" disabled/>
+            <input type="number" name="otp_four" disabled/>
+        </div>
+        <button id="otpButton" type="submit" class="font-vazir">تایید کد</button>
     </form>
-{#    <div id="formFooter">#}
-{#      <a class="underlineHover" href="#">تغییر شماره موبایل؟</a>#}
-{#    </div>#}
-  </div>
+    <div style="display: flex;">
+        <section id="timer"></section>
+         <p class="font-vazir"> : زمان اعتبار کد  </p>
+    </div>
+
 </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
+    let countdown;
+
+    function getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+
+    let now = new Date().getTime();
+
+    let otpExpiresIn = parseInt(getCookie('otp_created')) * 1000 + 120e3;
+    let isModalDisplayed = sessionStorage.getItem('isModalDisplayed') ?? 'false';
+
+    window.addEventListener('DOMContentLoaded', () => {
+
+        if (now < otpExpiresIn) {
+            if (isModalDisplayed == 'false') {
+                Toast.fire({
+                    icon: "success",
+                    title: "کد تایید با موفقیت ارسال شد"
+                })
+                sessionStorage.setItem('isModalDisplayed', true)
+
+            } else {
+                Toast.fire({
+                    icon: "warning",
+                    title: "کد تایید قبلا ارسال شده است"
+                });
+            }
+        } else {
+            Toast.fire({
+                icon: "error",
+                title: "کد ارسال شده منقضی شده است"
+            }).then(() => {
+                clearInterval(countdown);
+                 sessionStorage.removeItem('isModalDisplayed');
+                document.querySelector('#timer').remove()
+                window.location.href = '/login-with-phone/';
+            });
+        }
+    });
+
+    if (getCookie('otp_created')) {
+        // Update the countdown every second
+        countdown = setInterval(() => {
+
+            const timer = document.getElementById("timer");
+            // Get the current date and time
+            const now = new Date().getTime();
+
+            // Calculate the remaining time
+            const remainingTime = otpExpiresIn - now;
+
+            // If the remaining time is less than 0, clear the interval and display "Expired"
+            if (remainingTime < 0) {
+                clearInterval(countdown);
+                Toast.fire({
+                    icon: "error",
+                    title: "کد ارسال شده منقضی شده است"
+                }).then(() => {
+                     sessionStorage.removeItem('isModalDisplayed');
+                    window.location.href = '/login-with-phone/';
+                })
+            } else {
+                // Calculate minutes, seconds, and milliseconds
+                const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+                // const milliseconds = Math.floor((remainingTime % 1000) / 10);
+
+                // Display the countdown timer
+                // timer.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}:${milliseconds.toString().padStart(2, "0")}`;
+                timer.textContent = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+            }
+        }, 1000);
+    }
+
+</script>
+
+</html>

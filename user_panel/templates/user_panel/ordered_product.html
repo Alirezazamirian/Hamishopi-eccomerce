@@ -4,48 +4,60 @@
 
 
 {% block title %}
-	سفارشات
+    سفارشات
 {% endblock %}
 
 {% block content %}
 
     <section class="account_section section_space">
-    <div class="container">
-        <div class="row">
-            {% render_partial 'user_panel.views.profile_partial' %}
+        <div class="container">
+            <div class="row">
+                {% render_partial 'user_panel.views.profile_partial' %}
 
-            <div class="col col-lg-9">
-                <div class="account_content_area">
-                    <h3>سفارشات من</h3>
-                    <ul class="content_layout ul_li_block">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th scope="col">شناسه خرید</th>
-                                <th scope="col">تاریخ پرداخت</th>
-                                <th scope="col">شناسه پرداخت</th>
-                                <th scope="col">جزییات</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                <div class="col col-lg-9">
+                    <div class="account_content_area">
+                        <h3>سفارشات من</h3>
+                        <ul class="content_layout ul_li_block">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">شناسه خرید</th>
+                                    <th scope="col">تاریخ پرداخت</th>
+                                    <th scope="col">وضعیت پرداخت</th>
+                                    <th scope="col">جزییات</th>
+                                </tr>
+                                </thead>
+                                <tbody>
 
-                            {% for object in object_list %}
-                            	<tr>
-                                <th scope="row">{{ object.id }}</th>
-                                <td>{{ object.payment_date }}</td>
-                                <td>Otto</td>
-                                <td><a  href="{% url 'ordered_detail_page' order_id=object.id%}"><button type="button" class="btn btn-warning">جزییات پرداخت</button></a></td>
-                            </tr>
-                            {% endfor %}
+                                {% for object in object_list %}
+                                    <tr>
+                                        <th scope="row">{{ object.id }}</th>
+                                        <td>{{ object.payment_date | show_jalali_date }}</td>
+                                        {% if object.is_start and not object.is_progress and not object.is_finish %}
+                                            <td>در حال بررسی...</td>
+                                        {% endif %}
+
+                                        {% if object.is_progress and object.is_start and not object.is_finish %}
+                                            <td>در حال انجام...</td>
+                                        {% endif %}
+                                        {% if object.is_finish and object.is_progress and object.is_start %}
+                                            <td>ارسال شده</td>
+                                        {% endif %}
+
+                                        <td><a href="{% url 'ordered_detail_page' order_id=object.id %}">
+                                            <button type="button" class="btn btn-warning">جزییات پرداخت</button>
+                                        </a></td>
+                                    </tr>
+                                {% endfor %}
 
 
-                            </tbody>
-                        </table>
-                    </ul>
+                                </tbody>
+                            </table>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 {% endblock %}

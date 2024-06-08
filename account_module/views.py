@@ -1,3 +1,5 @@
+import datetime
+
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
@@ -47,7 +49,12 @@ class RegisterView(mixins.RedirectIfLoggedInMixin, View):
 
                 request.session['user_phone'] = new_user.phone
                 # todo:send OTP sms to be activate
-                return redirect(reverse('verify-page'))
+                user_otp = str(new_user.otp_create_time)
+                datetime_obj = datetime.datetime.strptime(user_otp, "%Y-%m-%d %H:%M:%S.%f")
+                timestamp = datetime_obj.timestamp()
+                response = redirect('/verify/')
+                response.set_cookie('otp_created', timestamp)
+                return response
 
         context = {
             'register_form': register_form
@@ -74,6 +81,10 @@ class PhoneLoginView(mixins.RedirectIfLoggedInMixin, View):
             if not phone:
 
                 messages.error(request, "شماره همراه وارد شده وجود ندارد ابتدا ثبت نام کنید")
+
+            elif helper.check_otp_expiration(user_phone):
+                return redirect('/verify/')
+
             else:
                 user = User.objects.get(phone=user_phone)
                 del user.otp
@@ -85,8 +96,12 @@ class PhoneLoginView(mixins.RedirectIfLoggedInMixin, View):
                 user.save()
                 request.session['user_phone'] = user.phone
                 # todo:send OTP sms to be activated
-                return redirect(reverse('verify-page'))
-
+                user_otp = str(user.otp_create_time)
+                datetime_obj = datetime.datetime.strptime(user_otp, "%Y-%m-%d %H:%M:%S.%f")
+                timestamp = datetime_obj.timestamp()
+                response = redirect('/verify/')
+                response.set_cookie('otp_created', timestamp)
+                return response
         context = {
             'login_form': login_form
         }
@@ -96,22 +111,26 @@ class PhoneLoginView(mixins.RedirectIfLoggedInMixin, View):
 
 def verify(request):
     user = request.user
+
     if not user.is_authenticated:
         try:
 
             phone = request.session.get('user_phone')
             user = User.objects.get(phone=phone)
-
             if request.method == "POST":
-
+                otp_one = request.POST.get('otp_one')
+                otp_two = request.POST.get('otp_two')
+                otp_three = request.POST.get('otp_three')
+                otp_four = request.POST.get('otp_four')
+                otp = int(otp_one + otp_two + otp_three + otp_four)
                 # check otp expiration
                 if not helper.check_otp_expiration(user.phone):
-                    messages.error(request, "کد منقضی شده است دولاره امتحان کنید")
+                    messages.error(request, "کد منقضی شده است دوباره امتحان کنید")
                     return HttpResponseRedirect(reverse('login-phone-page'))
 
-                elif user.otp != int(request.POST.get('otp')):
+                elif user.otp != otp:
                     messages.error(request, "کد وارد شده اشتباه است")
-                    return HttpResponseRedirect(reverse('verify-page'))
+                    return HttpResponseRedirect(reverse('login-phone-page'))
                 else:
                     user.is_active = True
                     user.activation_code = get_random_string(20)
@@ -126,6 +145,7 @@ def verify(request):
             return HttpResponseRedirect(reverse('register-page'))
     else:
         return redirect(reverse('home_page'))
+
 
 class UsernameLoginView(mixins.RedirectIfLoggedInMixin, View):
     def get(self, request):

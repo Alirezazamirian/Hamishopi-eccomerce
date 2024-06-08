@@ -1,5 +1,7 @@
 {% extends 'shared/layout.html' %}
 
+<script src="https://www.google.com/recaptcha/api.js?hl=fa"></script>
+
 {% block title %}
     ثبت نام
 {% endblock %}
@@ -39,6 +41,7 @@
                                         <label for="username_input2"><i class="fas fa-user"></i></label>
                                         {{ register_form.username }}
                                         <span>{{ register_form.username.help_text }} </span>
+                                        {{ register_form.username.errors }}
                                     </div>
                                 </div>
 
@@ -47,6 +50,7 @@
                                     <div class="form_item">
                                         <label for="password_input2"><i class="fas fa-lock"></i></label>
                                         {{ register_form.password }}
+                                        {{ register_form.password.errors }}
                                     </div>
                                 </div>
                                 <div class="form_item_wrap">
@@ -54,6 +58,7 @@
                                     <div class="form_item">
                                         <label for="password_input2"><i class="fas fa-lock"></i></label>
                                         {{ register_form.confirm_password }}
+                                        {{ register_form.confirm_password.errors }}
                                     </div>
                                 </div>
 
@@ -63,8 +68,14 @@
                                         <label><i class="fas fa-phone"></i></label>
                                         {{ register_form.phone }}
                                         <span>{{ register_form.phone.help_text }}</span>
+                                        {{ register_form.phone.errors }}
                                     </div>
                                 </div>
+{#                                <div class="form_item_wrap">#}
+{#                                    <div class="form_item">#}
+{#                                        {{ register_form.captcha }}#}
+{#                                    </div>#}
+{#                                </div>#}
 
                                 <div class="text-start">
                                     <button type="submit" class="btn btn_secondary">اکنون ثبت نام کنید</button>

@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from kavenegar import *
 from hamishopy.settings import Kavenegar_API
 from random import randint
@@ -19,7 +21,8 @@ def send_otp(phone, otp):
         params = {
             'sender': '2000500666',  # optional
             'receptor': phone,  # multiple mobile number, split by comma
-            'message': 'otp: {}'.format(otp),
+            'message': 'به خانواده ی حامی خوش آمدید.\n'
+                       'کد ورود شما : {}'.format(otp),
         }
         response = api.sms_send(params)
         print('OTP: ', otp)
@@ -28,6 +31,9 @@ def send_otp(phone, otp):
         print(e)
     except HTTPException as e:
         print(e)
+
+
+
 
 
 def send_otp_soap(phone, otp):
@@ -61,6 +67,22 @@ def get_random_otp():
     return randint(1000, 9999)
 
 
+# def check_otp_expiration(phone):
+#     try:
+#         user = models.User.objects.get(phone=phone)
+#         now = datetime.datetime.now()
+#         otp_time = user.otp_create_time
+#         diff_time = now - otp_time
+#         print('OTP TIME: ', diff_time)
+#
+#         if diff_time.seconds > 120:
+#             return False
+#         return True
+#
+#     except models.User.DoesNotExist:
+#         return False
+
+
 def check_otp_expiration(phone):
     try:
         user = models.User.objects.get(phone=phone)
@@ -69,8 +91,11 @@ def check_otp_expiration(phone):
         diff_time = now - otp_time
         print('OTP TIME: ', diff_time)
 
+
         if diff_time.seconds > 120:
             return False
+
+
         return True
 
     except models.User.DoesNotExist:

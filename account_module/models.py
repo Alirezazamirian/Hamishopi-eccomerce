@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from collections import namedtuple
 
 
 # Create your models here.
@@ -17,6 +18,7 @@ class User(AbstractUser):
     is_active = models.BooleanField(default=True)
     activation_code = models.CharField(max_length=100, blank=True, verbose_name='کد تغییر رمز عبور')
 
+
     class Meta:
         verbose_name = 'کاربر'
         verbose_name_plural = 'کاربران'
@@ -26,3 +28,4 @@ class User(AbstractUser):
             return self.get_full_name()
 
         return self.username
+

@@ -126,13 +126,17 @@
 
 
                         </div>
-
-                        <ul class="default_btns_group ul_li">
+                        {% if user.is_authenticated %}
+                        	<ul class="default_btns_group ul_li">
                             <li><a class="addtocart_btn" onclick="addProductToOrder({{ product.id }})">
                                 <button>افزودن به سبد خرید</button>
                             </a></li>
                             <li><a href="#!"><i class="fas fa-heart"></i></a></li>
                         </ul>
+                            {% else %}
+                            <p>برای خرید ابتدا وارد <a href="{% url 'login-phone-page' %}">حساب کاربری</a> خود شوید!</p>
+                        {% endif %}
+
 
 
                     </div>
@@ -156,7 +160,7 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="description_tab" role="tabpanel">
-                        <p dir="rtl">{{ product.description }}</p>
+                        <p dir="rtl">{{ product.description | linebreaksbr }}</p>
                     </div>
                     <div class="tab-pane fade" id="reviews_tab" role="tabpanel" dir="rtl">
                         <div class="average_area">

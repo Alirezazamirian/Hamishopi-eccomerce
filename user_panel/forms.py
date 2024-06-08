@@ -100,10 +100,18 @@ class ShippingUserForm(forms.ModelForm):
     phone = forms.CharField(required=True, error_messages={'required': 'شماره همراه اجباری میباشد'},
                             widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'شماره همراه'}))
     instagram = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'ایدی اینستاگرام'}))
+    followup_code = forms.CharField(required=True, error_messages={'required': 'شماره پیگیری اجباری میباشد',
+                                                                   'validators': 'شماره پیگیری معتبر نمیباشد!',
+                                                                   'errors': 'شماره پیگیری معتبر نمبیاشد!',
+                                                                   'min_length': 'شماره پیگیری معتبر نمیباشد!',
+                                                                   'max_length': 'شماره پیگیری معتبر نمیباشد!'
+                                                                   },
+
+                                    validators=[validators.MaxLengthValidator(16), validators.MinLengthValidator(10)])
 
     class Meta:
         model = OrderFormClass
-        fields = ['first_name', 'last_name', 'province', 'city', 'address', 'postal_code', 'phone', 'instagram']
+        fields = ['first_name', 'last_name', 'province', 'city', 'address', 'postal_code', 'phone', 'instagram', 'followup_code']
 
         widgets = {
             'instagram': forms.TextInput(attrs={
@@ -120,6 +128,5 @@ class ShippingUserForm(forms.ModelForm):
             'postal_code': 'کد پستی',
             'phone': 'شماره همراه',
             'instagram': 'ایدی پیح اینستاگرام(اختیاری)',
+            'followup_code': 'کد پیگیری'
         }
-
-
